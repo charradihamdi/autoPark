@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001" }),
   reducerPath: "adminApi",
   tagTypes: [
     "User",
@@ -18,6 +18,13 @@ export const api = createApi({
     getUser: build.query({
       query: (id) => `general/user/${id}`,
       providesTags: ["User"],
+    }),
+    deleteUser: build.mutation({
+      query: (id) => ({
+        url: `client/user/${id}`,
+        method: "DELETE",
+        providesTags: ["Customers"],
+      }),
     }),
     getProducts: build.query({
       query: () => "client/products",
@@ -68,4 +75,5 @@ export const {
   useGetAdminsQuery,
   useGetUserPerformanceQuery,
   useGetDashboardQuery,
+  useDeleteUserMutation,
 } = api;

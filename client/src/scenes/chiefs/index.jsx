@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
-import { useGetCustomersQuery } from "state/api";
+import { useGetCustomersQuery, useDeleteUserMutation } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
-
-const Customers = () => {
+import DeleteIcon from "@mui/icons-material/Delete";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import "./index.css";
+import { useDispatch } from "react-redux";
+const Chiefs = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const { data, isLoading } = useGetCustomersQuery();
-  console.log("data", data);
-
+  const [deleteUser, response] = useDeleteUserMutation();
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   const columns = [
     {
       field: "_id",
@@ -48,11 +54,29 @@ const Customers = () => {
       headerName: "Role",
       flex: 0.5,
     },
+    {
+      field: "action",
+      headerName: "actions",
+      flex: 0.5,
+      renderCell: ({ row }) => (
+        <>
+          <ToggleOffIcon className="iconsDash" />
+          <DeleteIcon
+            className="iconsDash"
+            onClick={() =>
+              deleteUser(row._id).then(() => {
+                data();
+              })
+            }
+          />
+        </>
+      ),
+    },
   ];
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="CUSTOMERS" subtitle="List of Customers" />
+      <Header title="Chief" subtitle="List of Chiefs" />
       <Box
         mt="40px"
         height="75vh"
@@ -92,4 +116,4 @@ const Customers = () => {
   );
 };
 
-export default Customers;
+export default Chiefs;

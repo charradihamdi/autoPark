@@ -4,7 +4,7 @@ export const geoData = {
     {
       type: "Feature",
       properties: {
-        name: "Afghanistan",
+        name: "France",
       },
       geometry: {
         type: "Polygon",
